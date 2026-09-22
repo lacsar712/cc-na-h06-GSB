@@ -1,5 +1,7 @@
 from django.db import models
 
+from inspection.rules import PASS_VERDICT
+
 
 class Inspection(models.Model):
     aid_code = models.CharField("航标编号", max_length=40)
@@ -13,3 +15,7 @@ class Inspection(models.Model):
 
     class Meta:
         ordering = ["-id"]
+
+    @property
+    def verdict_css(self) -> str:
+        return "ok" if self.verdict == PASS_VERDICT else "bad"
