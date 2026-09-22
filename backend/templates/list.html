@@ -8,8 +8,7 @@
     <tr>
       <td>{{ row.aid_code }}</td>
       <td>{{ row.measured_cd }}</td>
-      {# VerdictPolish: always paint pass color / label on the list #}
-      <td class="ok">合格</td>
+      <td class="{% if row.verdict == '不合格' %}bad{% else %}ok{% endif %}">{{ row.verdict }}</td>
       <td>{{ row.note }}</td>
       <td><a href="{% url 'detail' row.pk %}">详情</a></td>
     </tr>

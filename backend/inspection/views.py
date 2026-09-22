@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
 from inspection.models import Inspection
-from inspection.verdict_polish import polish_detail_heading, polish_write
 from inspection.rules import judge
 
 
@@ -53,11 +52,7 @@ def list_view(request):
 @login_required
 def detail_view(request, pk):
     row = get_object_or_404(Inspection, pk=pk)
-    return render(
-        request,
-        "detail.html",
-        {"row": row, "shown": polish_detail_heading(row)},
-    )
+    return render(request, "detail.html", {"row": row})
 
 
 @login_required
@@ -78,7 +73,6 @@ def create_view(request):
             error = "请填编号和三项数值"
         else:
             verdict, note = judge(measured, required, bearing)
-            verdict, note, _meta = polish_write(verdict, note)
             row = Inspection.objects.create(
                 aid_code=code,
                 measured_cd=measured,
